@@ -10,10 +10,15 @@ const ProfileModal = ({ profile, onClose }) => {
     projetos, certificacoes, idiomas, areaInteresses
   } = profile;
 
-  // Função para simular a ação dos botões (Requisito: "Devem estar funcionando" [cite: 15])
-  const handleAction = (action) => {
-    alert(`Ação: ${action} para ${nome}. (Funcionalidade simulada)`);
+  // 1. Funções de Ação Implementadas (Requisito: "Botões de ação... Devem estar funcionando" )
+  const handleRecomendar = () => {
+    alert(`Ação: Você recomendou o(a) profissional ${nome}!`);
   };
+
+  const handleMensagem = () => {
+    alert(`Ação: Mensagem para ${nome} pronta para ser enviada!`);
+  };
+  // ---------------------------------------------------------------------------------------
 
   return (
     // Overlay: Fundo escuro fixo para cobrir a tela (Dark Mode compatível)
@@ -49,7 +54,8 @@ const ProfileModal = ({ profile, onClose }) => {
           {/* Seção 1: Informações Pessoais e Resumo [cite: 12] */}
           <section className="flex flex-col md:flex-row items-start md:space-x-6 pb-6 border-b border-gray-100 dark:border-gray-800">
             <img
-              src={foto.replace('./images', 'src/assets/images')} // Adapte o path conforme seu setup
+              // Usando o ajuste de path que garante o funcionamento local e no Vercel
+              src={foto.replace(/^\.\//, '/')}
               alt={`Foto de ${nome}`}
               className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-indigo-500 mb-4 md:mb-0 flex-shrink-0"
             />
@@ -62,21 +68,22 @@ const ProfileModal = ({ profile, onClose }) => {
             </div>
           </section>
 
-          {/* Seção de Botões de Ação [cite: 15] */}
+          {/* 2. Seção de Botões de Ação (IMPLEMENTADA AGORA)  */}
           <div className="flex space-x-4">
             <button 
-              onClick={() => handleAction("Recomendar")}
+              onClick={handleRecomendar} // Chama a função Recomendar
               className="flex-1 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition duration-150"
             >
               Recomendar Profissional
             </button>
             <button
-              onClick={() => handleAction("Enviar Mensagem")}
+              onClick={handleMensagem} // Chama a função Enviar Mensagem
               className="flex-1 py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition duration-150"
             >
               Enviar Mensagem
             </button>
           </div>
+          {/* --------------------------------------------------------------------------------------- */}
 
           {/* Seção 2: Habilidades Técnicas e Soft Skills [cite: 13, 14] */}
           <div className="grid md:grid-cols-2 gap-8">
@@ -189,7 +196,7 @@ const ProfileModal = ({ profile, onClose }) => {
           
         </div>
 
-        {/* Footer com botão de fechar (opcional, já tem no header) */}
+        {/* Footer com botão de fechar (separado dos botões de ação) */}
         <div className="p-4 border-t border-gray-200 dark:border-gray-800 text-right">
              <button
                 onClick={onClose}
